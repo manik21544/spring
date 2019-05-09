@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+  
+<mapper namespace="com.arcesium.mappers.StudentMapper">
+
+<select id="getStudentById" parameterType="int" resultType="Student">
+	SELECT 
+	id,first_name AS firstName , last_name AS lastName , passes
+	from students 
+	WHERE id=#{id}
+</select>
+
+<resultMap type="Student" id="StudentResult">
+	<id property="id" column="id"/>
+	<result property="firstName" column="first_name"/>
+	<result property="lastName" column="last_name"/>
+	<result property="passes" column="passes"/>
+</resultMap>
+
+<select id="getAllStudents" resultMap="StudentResult">
+	SELECT * from students
+</select>
+
+<insert id="insertStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO students 
+	(first_name,last_name,passes)
+	VALUES (#{firstName},#{lastName},#{passes})
+</insert>
+
+<update id="updateStudent" parameterType="Student">
+	UPDATE students
+	SET first_name=#{firstName},
+	last_name=#{lastName},
+	passes=#{passes}
+	WHERE id=#{id}
+</update>
+
+<delete id="deleteStudent" parameterType="int">
+	DELETE from students WHERE id=#{id}
+</delete>
+
+</mapper>
